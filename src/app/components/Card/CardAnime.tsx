@@ -5,6 +5,7 @@ import { Pagination } from '@nextui-org/react';
 import { fetchAnimeData } from '@/api/fetch-data';
 import SkeletonLoader from '../Skeleton/SkeletonLoader';
 import { DataStructure, Media } from '@/types';
+import Image from 'next/image';
 
 // AnimeCard Component
 const AnimeCard: React.FC<{
@@ -15,7 +16,7 @@ const AnimeCard: React.FC<{
 }> = ({ title, category, studio, image }) => {
   return (
     <div className="bg-slate-900 shadow-md rounded-lg overflow-hidden">
-      <img src={image} alt={title} className="w-full h-48 object-cover" />
+      <Image src={image} height={48} alt={title} className="w-full h-48 object-cover" />
       <div className="p-4">
         <h3 className="text-xl font-bold mb-2">{title}</h3>
         <p className="text-gray-600">Category: {category}</p>
@@ -37,11 +38,16 @@ const AnimeCardGrid: React.FC = () => {
   const loadAnimeData = async (page: number) => {
     try {
       setLoading(true);
-      const data: DataStructure = await fetchAnimeData(page, itemsPerPage);
-      setAnimeList(data.Page.media);
-      setTotalPages(data.Page.pageInfo.lastPage);
+      const result: DataStructure = await fetchAnimeData(page, itemsPerPage);
+      if (result.data && result.data.Page) {
+        setAnimeList(result.data.Page.media);
+        setTotalPages(result.data.Page.pageInfo.lastPage);
+      } else {
+        throw new Error('Unexpected data structure');
+      }
     } catch (err) {
       setError('Failed to fetch anime data.');
+      console.error(err);
     } finally {
       setLoading(false);
     }

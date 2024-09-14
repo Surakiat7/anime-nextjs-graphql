@@ -1,7 +1,11 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 
-const client = new ApolloClient({
+const httpLink = new HttpLink({
   uri: 'https://graphql.anilist.co',
+});
+
+const client = new ApolloClient({
+  link: httpLink,
   cache: new InMemoryCache(),
 });
 

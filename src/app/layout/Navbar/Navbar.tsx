@@ -8,7 +8,6 @@ import {
   NavbarContent,
   NavbarItem,
   Link,
-  Button,
 } from '@nextui-org/react';
 import Image from 'next/image';
 
