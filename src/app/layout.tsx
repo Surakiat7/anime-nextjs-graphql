@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Barlow_Condensed } from 'next/font/google';
 import './globals.css';
 import { Provider } from './provider';
+import { ApolloWrapper } from '@/api/apollo-wrapper';
 
 const barlowCondensed = Barlow_Condensed({
   subsets: ['latin'],
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${barlowCondensed.variable} antialiased`}>
-        <Provider>{children}</Provider>
+        <Provider>
+          <ApolloWrapper>{children}</ApolloWrapper>
+        </Provider>
       </body>
     </html>
   );

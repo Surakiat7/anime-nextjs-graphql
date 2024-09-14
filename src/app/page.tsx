@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import Footer from './layout/Footer/Footer';
 import { useNavbarHeight, useScrollToTop } from '@/hooks/UseCustomEffects';
 import NavBar from './layout/Navbar/Navbar';
-import AnimeCardGrid from './components/Card/CardTest';
+import AnimeCardGrid from './components/Card/CardAnime';
 
 export default function Home() {
   const navbarHeight = useNavbarHeight();

@@ -24,3 +24,19 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Custom Scroll Bar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 12px;
+  background-color: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
