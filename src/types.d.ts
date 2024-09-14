@@ -1,5 +1,5 @@
 export interface DataStructure {
-  [key: string]: unknown;
+  [x: string]: Array;
   data: Data;
 }
 

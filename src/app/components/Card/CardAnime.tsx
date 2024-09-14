@@ -16,7 +16,7 @@ const AnimeCard: React.FC<{
 }> = ({ title, category, studio, image }) => {
   return (
     <div className="bg-slate-900 shadow-md rounded-lg overflow-hidden">
-      <Image src={image} height={48} alt={title} className="w-full h-48 object-cover" />
+      <Image src={image} height={48} width={300} alt={title} className="w-full h-48 object-cover" />
       <div className="p-4">
         <h3 className="text-xl font-bold mb-2">{title}</h3>
         <p className="text-gray-600">Category: {category}</p>
@@ -38,13 +38,11 @@ const AnimeCardGrid: React.FC = () => {
   const loadAnimeData = async (page: number) => {
     try {
       setLoading(true);
-      const result: DataStructure = await fetchAnimeData(page, itemsPerPage);
-      if (result.data && result.data.Page) {
-        setAnimeList(result.data.Page.media);
-        setTotalPages(result.data.Page.pageInfo.lastPage);
-      } else {
-        throw new Error('Unexpected data structure');
-      }
+      const data = await fetchAnimeData(page, itemsPerPage) as DataStructure;
+      console.log("data:",data);
+      
+      setAnimeList(data.Page.media);
+      setTotalPages(data.Page.pageInfo.lastPage);
     } catch (err) {
       setError('Failed to fetch anime data.');
       console.error(err);

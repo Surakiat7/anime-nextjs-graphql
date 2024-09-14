@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 import client from './apollo-client';
 import { DataStructure } from '@/types';
 
-export const FETCH_ANIME_DATA = gql`
-  query GetAnimeList($page: Int!, $perPage: Int!) {
+const FETCH_ANIME_QUERY = gql`
+  query ($page: Int, $perPage: Int) {
     Page(page: $page, perPage: $perPage) {
       pageInfo {
         total
@@ -35,11 +35,15 @@ export const FETCH_ANIME_DATA = gql`
   }
 `;
 
-export async function fetchAnimeData(page: number = 1, perPage: number = 12): Promise<DataStructure> {
-  const response = await client.query({
-    query: FETCH_ANIME_DATA,
-    variables: { page, perPage },
-  });
-
-  return response.data;
+export async function fetchAnimeData(page: number, perPage: number): Promise<DataStructure> {
+  try {
+    const { data } = await client.query({
+      query: FETCH_ANIME_QUERY,
+      variables: { page, perPage },
+    });
+    return data as DataStructure;
+  } catch (error) {
+    console.error('Error fetching anime data:', error);
+    throw new Error('Failed to fetch anime data');
+  }
 }
