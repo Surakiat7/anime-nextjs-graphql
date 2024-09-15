@@ -6,6 +6,10 @@ import { fetchAnimeData } from '@/api/fetch-data';
 import SkeletonLoader from '../Skeleton/SkeletonLoader';
 import { DataStructure, Media } from '@/types';
 import { BsFillStarFill } from 'react-icons/bs';
+import { gsap } from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+
+gsap.registerPlugin(ScrollToPlugin);
 
 // AnimeCard Component
 const AnimeCard: React.FC<{
@@ -58,7 +62,6 @@ const AnimeCardGrid: React.FC = () => {
     try {
       setLoading(true);
       const data = (await fetchAnimeData(page, itemsPerPage)) as DataStructure;
-      console.log('data', data);
       setAnimeList(data.Page.media);
       setTotalPages(data.Page.pageInfo.lastPage);
     } catch (err) {
@@ -74,6 +77,10 @@ const AnimeCardGrid: React.FC = () => {
   }, [currentPage]);
 
   const handleChangePage = (page: number) => {
+    gsap.to(window, {
+      duration: 1,
+      scrollTo: { y: 0 },
+    });
     setCurrentPage(page);
   };
 

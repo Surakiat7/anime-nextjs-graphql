@@ -4,7 +4,7 @@ const SkeletonLoader: React.FC = () => {
   return (
     <main className="w-full justify-center flex flex-col sm:gap-4 gap-4 px-2 sm:px-4 py-2 sm:py-4">
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4">
-        {Array(12)
+        {Array(30)
           .fill(0)
           .map((_, idx) => (
             <Card className="w-full space-y-5 p-4" radius="lg" key={idx}>
