@@ -32,12 +32,14 @@ const AnimeCard: React.FC<{
       </div>
       <CardFooter className="flex gap-1 flex-col items-start before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
         <h3 className="text-xl font-bold p-0 m-0 leading-none">{title}</h3>
-        <p className="text-white text-md p-0 m-0 leading-none">
-          Category: {category}
-        </p>
-        <p className="text-white text-md p-0 m-0 leading-none">
-          Studio: {studio}
-        </p>
+        <div className="flex flex-col gap-1 mb-2">
+          <p className="text-white text-md p-0 m-0 leading-none">
+            Category: {category}
+          </p>
+          <p className="text-white text-md p-0 m-0 leading-none">
+            Studio: {studio}
+          </p>
+        </div>
       </CardFooter>
     </Card>
   );
