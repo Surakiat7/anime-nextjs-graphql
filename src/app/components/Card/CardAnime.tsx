@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Pagination, Card, CardFooter, Image, Chip } from '@nextui-org/react';
+import { Pagination, Card, CardFooter, Image } from '@nextui-org/react';
 import { fetchAnimeData } from '@/api/fetch-data';
 import SkeletonLoader from '../Skeleton/SkeletonLoader';
 import { DataStructure, Media } from '@/types';
-import { BsStars } from 'react-icons/bs';
 import { BsFillStarFill } from 'react-icons/bs';
 
 // AnimeCard Component
