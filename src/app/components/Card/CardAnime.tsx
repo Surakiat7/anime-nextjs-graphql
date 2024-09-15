@@ -39,8 +39,6 @@ const AnimeCardGrid: React.FC = () => {
     try {
       setLoading(true);
       const data = await fetchAnimeData(page, itemsPerPage) as DataStructure;
-      console.log("data:",data);
-      
       setAnimeList(data.Page.media);
       setTotalPages(data.Page.pageInfo.lastPage);
     } catch (err) {
@@ -63,7 +61,7 @@ const AnimeCardGrid: React.FC = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <main className="w-full justify-center flex flex-col gap-4 px-12 py-6">
+    <main className="w-full justify-center flex flex-col gap-6 px-12 py-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {animeList.map((anime) => {
           const studio = anime.studios?.nodes[0]?.name || 'Unknown';
@@ -78,13 +76,13 @@ const AnimeCardGrid: React.FC = () => {
           );
         })}
       </div>
-      <div className="w-full flex justify-center mt-6">
+      <div className="w-full flex justify-center">
         <Pagination
           total={totalPages}
           initialPage={1}
           onChange={handleChangePage}
           page={currentPage}
-          color="success"
+          color="primary"
         />
       </div>
     </main>

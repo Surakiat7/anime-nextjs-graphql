@@ -7,7 +7,7 @@ export function Provider(props: AppProviderProps) {
   const { children, className } = props;
 
   return (
-    <NextUIProvider className={className}>
+    <NextUIProvider className={'purple-dark text-foreground bg-background'}>
       {children}
     </NextUIProvider>
   );

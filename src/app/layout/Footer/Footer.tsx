@@ -18,10 +18,10 @@ const Footer = () => {
         <div className="flex w-full sm:justify-start justify-center items-center gap-6">
           <div className="flex w-fit justify-center items-center gap-2">
             <Image
-              src="/AnimeLogo.png"
+              src="/AnimeLogo-NeonColor.png"
               alt="AnimeLogo"
-              width={40}
-              height={40}
+              width={60}
+              height={60}
               priority
               className="object-cover"
             />
