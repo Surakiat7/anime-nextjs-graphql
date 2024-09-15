@@ -2,8 +2,8 @@ import { Card, Skeleton } from '@nextui-org/react';
 
 const SkeletonLoader: React.FC = () => {
   return (
-    <main className="w-full justify-center flex flex-col gap-4 px-12 py-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <main className="w-full justify-center flex flex-col sm:gap-4 gap-4 px-2 sm:px-4 py-2 sm:py-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4">
         {Array(12)
           .fill(0)
           .map((_, idx) => (
@@ -25,7 +25,7 @@ const SkeletonLoader: React.FC = () => {
             </Card>
           ))}
       </div>
-      <div className="w-full flex justify-center mt-6" />
+      <div className="w-full flex justify-center sm:mb-0 md:mb-0 mb-4" />
     </main>
   );
 };

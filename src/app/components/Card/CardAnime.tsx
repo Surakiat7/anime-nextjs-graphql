@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Pagination } from '@nextui-org/react';
+import { Pagination, Card, CardFooter, Image, Chip } from '@nextui-org/react';
 import { fetchAnimeData } from '@/api/fetch-data';
 import SkeletonLoader from '../Skeleton/SkeletonLoader';
 import { DataStructure, Media } from '@/types';
-import Image from 'next/image';
+import { BsStars } from 'react-icons/bs';
+import { BsFillStarFill } from 'react-icons/bs';
 
 // AnimeCard Component
 const AnimeCard: React.FC<{
@@ -13,16 +14,29 @@ const AnimeCard: React.FC<{
   category: string;
   studio: string;
   image: string;
-}> = ({ title, category, studio, image }) => {
+  averageScore?: number;
+}> = ({ title, category, studio, image, averageScore }) => {
   return (
-    <div className="bg-slate-900 shadow-md rounded-lg overflow-hidden">
-      <Image src={image} height={48} width={300} alt={title} className="w-full h-48 object-cover" />
-      <div className="p-4">
-        <h3 className="text-xl font-bold mb-2">{title}</h3>
-        <p className="text-gray-600">Category: {category}</p>
-        <p className="text-gray-600">Studio: {studio}</p>
+    <Card isFooterBlurred radius="lg" className="border-none w-full relative">
+      <Image
+        alt="Woman listing to music"
+        className="object-cover"
+        height={300}
+        src={image}
+        width={300}
+      />
+      <div className="absolute top-1 left-1 z-20">
+        <div className="px-2 flex gap-1 items-center justify-center rounded-md bg-gradient-to-br from-[#00597B] to-[#47E0E6] border-small border-white/50 shadow-[#47E0E6]/30">
+          <BsFillStarFill color="white" size={16} />
+          <p className='text-white text-md'>{averageScore}%</p>
+        </div>
       </div>
-    </div>
+      <CardFooter className="flex flex-col items-start before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+        <h3 className="text-xl font-bold">{title}</h3>
+        <p className="text-white text-md">Category: {category}</p>
+        <p className="text-white text-md">Studio: {studio}</p>
+      </CardFooter>
+    </Card>
   );
 };
 
@@ -38,7 +52,8 @@ const AnimeCardGrid: React.FC = () => {
   const loadAnimeData = async (page: number) => {
     try {
       setLoading(true);
-      const data = await fetchAnimeData(page, itemsPerPage) as DataStructure;
+      const data = (await fetchAnimeData(page, itemsPerPage)) as DataStructure;
+      console.log('data', data);
       setAnimeList(data.Page.media);
       setTotalPages(data.Page.pageInfo.lastPage);
     } catch (err) {
@@ -61,8 +76,8 @@ const AnimeCardGrid: React.FC = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <main className="w-full justify-center flex flex-col gap-6 px-12 py-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <main className="w-full justify-center flex flex-col sm:gap-4 gap-4 px-2 sm:px-4 py-2 sm:py-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4">
         {animeList.map((anime) => {
           const studio = anime.studios?.nodes[0]?.name || 'Unknown';
           return (
@@ -72,11 +87,12 @@ const AnimeCardGrid: React.FC = () => {
               category={anime.genres[0]}
               studio={studio}
               image={anime.coverImage.large}
+              averageScore={anime.averageScore}
             />
           );
         })}
       </div>
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center sm:mb-0 md:mb-0 mb-4">
         <Pagination
           total={totalPages}
           initialPage={1}
