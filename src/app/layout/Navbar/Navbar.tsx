@@ -10,6 +10,10 @@ import {
   Link,
 } from '@nextui-org/react';
 import Image from 'next/image';
+import gsap from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+
+gsap.registerPlugin(ScrollToPlugin);
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,12 +37,18 @@ export default function NavBar() {
     };
   }, []);
 
+  const handleLogoClick = () => {
+    gsap.to(window, {
+      duration: 1,
+      scrollTo: { y: 0 },
+      ease: 'power2.inOut',
+    });
+  };
+
   return (
     <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent className="sm:hidden" justify="start">
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-        />
+        <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
       </NavbarContent>
 
       <NavbarContent className="sm:hidden pr-3" justify="center">
@@ -50,6 +60,7 @@ export default function NavBar() {
             height={50}
             priority
             className="cursor-pointer"
+            onClick={handleLogoClick}
           />
         </NavbarBrand>
       </NavbarContent>
@@ -63,6 +74,7 @@ export default function NavBar() {
             height={60}
             priority
             className="cursor-pointer"
+            onClick={handleLogoClick}
           />
         </NavbarBrand>
       </NavbarContent>
@@ -88,11 +100,7 @@ export default function NavBar() {
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-           <Link
-              className="w-full text-white"
-              href="#"
-              size="lg"
-            >
+            <Link className="w-full text-white" href="#" size="lg">
               {item}
             </Link>
           </NavbarMenuItem>
