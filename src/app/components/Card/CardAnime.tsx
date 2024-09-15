@@ -45,7 +45,7 @@ const AnimeCardGrid: React.FC = () => {
   const [animeList, setAnimeList] = useState<Media[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const itemsPerPage = 12;
+  const itemsPerPage = 30;
   const [totalPages, setTotalPages] = useState<number>(1);
 
   const loadAnimeData = async (page: number) => {
