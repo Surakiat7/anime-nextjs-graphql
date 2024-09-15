@@ -27,13 +27,17 @@ const AnimeCard: React.FC<{
       <div className="absolute top-1 left-1 z-20">
         <div className="px-2 flex gap-1 items-center justify-center rounded-md bg-gradient-to-br from-[#00597B] to-[#47E0E6] border-small border-white/50 shadow-[#47E0E6]/30">
           <BsFillStarFill color="white" size={16} />
-          <p className='text-white text-md'>{averageScore}%</p>
+          <p className="text-white text-md">{averageScore}%</p>
         </div>
       </div>
-      <CardFooter className="flex flex-col items-start before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
-        <h3 className="text-xl font-bold">{title}</h3>
-        <p className="text-white text-md">Category: {category}</p>
-        <p className="text-white text-md">Studio: {studio}</p>
+      <CardFooter className="flex gap-1 flex-col items-start before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+        <h3 className="text-xl font-bold p-0 m-0 leading-none">{title}</h3>
+        <p className="text-white text-md p-0 m-0 leading-none">
+          Category: {category}
+        </p>
+        <p className="text-white text-md p-0 m-0 leading-none">
+          Studio: {studio}
+        </p>
       </CardFooter>
     </Card>
   );
