@@ -4,10 +4,10 @@ import { type ReactNode } from 'react';
 import { NextUIProvider } from '@nextui-org/react';
 
 export function Provider(props: AppProviderProps) {
-  const { children, className } = props;
+  const { children } = props;
 
   return (
-    <NextUIProvider className={'purple-dark text-foreground bg-background'}>
+    <NextUIProvider className='purple-dark text-foreground bg-background'>
       {children}
     </NextUIProvider>
   );
@@ -15,5 +15,4 @@ export function Provider(props: AppProviderProps) {
 
 interface AppProviderProps {
   children: ReactNode;
-  className?: string;
 }
