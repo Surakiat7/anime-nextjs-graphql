@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import {
   Pagination,
@@ -110,15 +110,7 @@ const AnimeCardGrid: React.FC = () => {
     fetchOptions();
   }, []);
 
-  useEffect(() => {
-    loadAllAnimeData(currentPage);
-  }, [currentPage, pathname]);
-
-  useEffect(() => {
-    filterAnimeData();
-  }, [allAnimeList, searchTerm, genres, year, format, currentPage]);
-
-  const loadAllAnimeData = async (page: number) => {
+  const loadAllAnimeData = useCallback(async (page: number) => {
     try {
       setLoading(true);
       let data;
@@ -145,9 +137,9 @@ const AnimeCardGrid: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [pathname]);
 
-  const filterAnimeData = () => {
+  const filterAnimeData = useCallback(() => {
     let filteredList = [...allAnimeList];
 
     // Apply filters
@@ -185,7 +177,15 @@ const AnimeCardGrid: React.FC = () => {
 
     // Update filtered list
     setFilteredAnimeList(filteredList);
-  };
+  }, [allAnimeList, searchTerm, genres, year, format]);
+
+  useEffect(() => {
+    loadAllAnimeData(currentPage);
+  }, [currentPage, pathname, loadAllAnimeData]);
+
+  useEffect(() => {
+    filterAnimeData();
+  }, [filterAnimeData]);
 
   const handleChangePage = async (page: number) => {
     gsap.to(window, {
