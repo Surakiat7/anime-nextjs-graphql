@@ -88,3 +88,8 @@ export interface FetchGenresResponse {
     }[];
   };
 }
+
+export interface MediaQueryRange {
+  min?: string;
+  max?: string;
+}
