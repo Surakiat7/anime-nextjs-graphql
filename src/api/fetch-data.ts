@@ -131,17 +131,17 @@ export async function fetchGenres(): Promise<string[]> {
       variables: { page: 1, perPage: 50 },
     });
 
-    const genresSet = new Set<string>();
+    const genresArray: string[] = [];
 
-    // Collect genres from all media items
     data.Page.media.forEach((media: { genres: string[] }) => {
       media.genres.forEach((genre: string) => {
-        genresSet.add(genre);
+        if (!genresArray.includes(genre)) {
+          genresArray.push(genre);
+        }
       });
     });
 
-    // Convert Set to Array and sort
-    const uniqueGenres = Array.from(genresSet).sort();
+    const uniqueGenres = genresArray.sort();
     return uniqueGenres;
   } catch (error) {
     console.error('Error fetching genres:', error);
