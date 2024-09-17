@@ -2,13 +2,21 @@ export interface DataStructure {
   Page: Page;
 }
 
-export interface Data {
-  Page: Page;
+export interface RecommendationDataStructure {
+  Page: RecommendationPage;
 }
 
-export interface Page {
-  pageInfo: PageInfo;
+interface Page {
   media: Media[];
+  pageInfo: {
+    lastPage: number;
+  };
+}
+
+interface RecommendationPage {
+  recommendations: {
+    mediaRecommendation: Media;
+  }[];
 }
 
 export interface PageInfo {
@@ -19,14 +27,24 @@ export interface PageInfo {
   perPage: number;
 }
 
-export interface Media {
-  id: string;
-  title: Title;
-  description: string;
-  coverImage: CoverImage;
+interface Media {
+  id: number;
+  title: {
+    romaji: string;
+    english: string;
+  };
   genres: string[];
+  studios: {
+    nodes: { name: string }[];
+  };
+  coverImage: {
+    large: string;
+  };
   averageScore: number;
-  studios: StudioConnection;
+  startDate: {
+    year: number;
+  };
+  format: string;
 }
 
 export interface Title {
@@ -47,19 +65,26 @@ export interface Studio {
   name: string;
 }
 
-export interface MediaQueryRange {
-  min: string;
-  max?: string;
-}
-
-export interface RecommendationDataStructure {
-  Page: RecommendationPage;
-}
-
 export interface RecommendationPage {
   recommendations: Recommendation[];
 }
 
 export interface Recommendation {
   mediaRecommendation: Media;
+}
+
+export interface FetchFormatsResponse {
+  Page: {
+    media: {
+      format?: string;
+    }[];
+  };
+}
+
+export interface FetchGenresResponse {
+  Page: {
+    media: {
+      genres: string[];
+    }[];
+  };
 }

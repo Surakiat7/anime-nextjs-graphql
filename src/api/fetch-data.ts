@@ -1,6 +1,10 @@
 import { gql } from '@apollo/client';
 import client from './apollo-client';
-import { DataStructure, RecommendationDataStructure } from '@/types';
+import {
+  DataStructure,
+  RecommendationDataStructure,
+  FetchFormatsResponse,
+} from '@/types';
 
 const FETCH_ANIME_QUERY = gql`
   query ($page: Int, $perPage: Int) {
@@ -24,6 +28,10 @@ const FETCH_ANIME_QUERY = gql`
         }
         genres
         averageScore
+        startDate {
+          year
+        }
+        format
         studios {
           nodes {
             id
@@ -62,37 +70,6 @@ const FETCH_RECOMMENDED_ANIME_QUERY = gql`
     }
   }
 `;
-//   query ($page: Int, $perPage: Int) {
-//     Page(page: $page, perPage: $perPage) {
-//       pageInfo {
-//         total
-//         currentPage
-//         lastPage
-//         hasNextPage
-//         perPage
-//       }
-//       media(type: ANIME, sort: POPULARITY_DESC) {
-//         id
-//         title {
-//           romaji
-//           english
-//         }
-//         description
-//         coverImage {
-//           large
-//         }
-//         genres
-//         averageScore
-//         studios {
-//           nodes {
-//             id
-//             name
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
 
 const FETCH_POPULAR_ANIME_QUERY = gql`
   query ($page: Int, $perPage: Int) {
@@ -126,6 +103,72 @@ const FETCH_POPULAR_ANIME_QUERY = gql`
     }
   }
 `;
+
+const FETCH_FORMATS_QUERY = gql`
+  query ($page: Int, $perPage: Int) {
+    Page(page: $page, perPage: $perPage) {
+      media {
+        format
+      }
+    }
+  }
+`;
+
+const FETCH_GENRES_QUERY = gql`
+  query ($page: Int, $perPage: Int) {
+    Page(page: $page, perPage: $perPage) {
+      media {
+        genres
+      }
+    }
+  }
+`;
+
+export async function fetchGenres(): Promise<string[]> {
+  try {
+    const { data } = await client.query({
+      query: FETCH_GENRES_QUERY,
+      variables: { page: 1, perPage: 50 },
+    });
+
+    const genresSet = new Set<string>();
+
+    // Collect genres from all media items
+    data.Page.media.forEach((media: { genres: string[] }) => {
+      media.genres.forEach((genre: string) => {
+        genresSet.add(genre);
+      });
+    });
+
+    // Convert Set to Array and sort
+    const uniqueGenres = Array.from(genresSet).sort();
+    return uniqueGenres;
+  } catch (error) {
+    console.error('Error fetching genres:', error);
+    throw new Error('Failed to fetch genres');
+  }
+}
+
+export async function fetchFormats(): Promise<string[]> {
+  try {
+    const { data } = await client.query<FetchFormatsResponse>({
+      query: FETCH_FORMATS_QUERY,
+      variables: { page: 1, perPage: 50 },
+    });
+
+    const formatsSet = new Set<string>();
+    data.Page.media.forEach((media) => {
+      if (media.format) {
+        formatsSet.add(media.format);
+      }
+    });
+
+    return [...formatsSet].sort();
+  } catch (error) {
+    console.error('Error fetching formats:', error);
+    throw new Error('Failed to fetch formats');
+  }
+}
 
 export async function fetchPopularAnimeData(
   search: string,
