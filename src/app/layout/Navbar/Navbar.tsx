@@ -17,7 +17,11 @@ export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const menuItems = ['Home', 'All time popular', 'Anime Recommendations'];
+  const menuItems = [
+    { name: 'Home', href: '/' },
+    { name: 'Trending now', href: '/trending' },
+    { name: 'Recommendations', href: '/recommendation' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,7 +75,7 @@ export default function NavBar() {
 
       <NavbarContent className="hidden sm:flex gap-4" justify="end">
         <NavbarItem>
-          <Link className="text-white" aria-current="page" href="/">
+          <Link className="text-white" href="/">
             Home
           </Link>
         </NavbarItem>
@@ -88,10 +92,10 @@ export default function NavBar() {
       </NavbarContent>
 
       <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link className="w-full text-white" href="#" size="lg">
-              {item}
+        {menuItems.map((item) => (
+          <NavbarMenuItem key={item.name}>
+            <Link className="w-full text-white" href={item.href} size="lg">
+              {item.name}
             </Link>
           </NavbarMenuItem>
         ))}
