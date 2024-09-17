@@ -1,11 +1,13 @@
-'use client';
-
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { Pagination, Card, CardFooter, Image } from '@nextui-org/react';
-import { fetchAnimeData, fetchRecommendedAnimeData } from '@/api/fetch-data';
+import {
+  fetchAnimeData,
+  fetchRecommendedAnimeData,
+  fetchPopularAnimeData,
+} from '@/api/fetch-data';
 import SkeletonLoader from '../Skeleton/SkeletonLoader';
-import { DataStructure, RecommendationDataStructure, Media } from '@/types';
+import { DataStructure, Media } from '@/types';
 import { BsFillStarFill } from 'react-icons/bs';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -69,6 +71,10 @@ const AnimeCardGrid: React.FC = () => {
           data.Page.recommendations.map((rec) => rec.mediaRecommendation)
         );
         setTotalPages(data.Page.recommendations.length);
+      } else if (pathname === '/trending') {
+        const data = await fetchPopularAnimeData('', '', page, itemsPerPage);
+        setAnimeList(data.Page.media);
+        setTotalPages(data.Page.pageInfo.lastPage);
       } else {
         const data = (await fetchAnimeData(
           page,

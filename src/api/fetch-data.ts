@@ -62,6 +62,88 @@ const FETCH_RECOMMENDED_ANIME_QUERY = gql`
     }
   }
 `;
+//   query ($page: Int, $perPage: Int) {
+//     Page(page: $page, perPage: $perPage) {
+//       pageInfo {
+//         total
+//         currentPage
+//         lastPage
+//         hasNextPage
+//         perPage
+//       }
+//       media(type: ANIME, sort: POPULARITY_DESC) {
+//         id
+//         title {
+//           romaji
+//           english
+//         }
+//         description
+//         coverImage {
+//           large
+//         }
+//         genres
+//         averageScore
+//         studios {
+//           nodes {
+//             id
+//             name
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
+const FETCH_POPULAR_ANIME_QUERY = gql`
+  query ($page: Int, $perPage: Int) {
+    Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+        currentPage
+        lastPage
+        hasNextPage
+        perPage
+      }
+      media(sort: TRENDING_DESC, type: ANIME) {
+        id
+        title {
+          romaji
+          english
+        }
+        description
+        coverImage {
+          large
+        }
+        genres
+        averageScore
+        studios {
+          nodes {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+export async function fetchPopularAnimeData(
+  search: string,
+  format: string,
+  page: number,
+  perPage: number
+): Promise<DataStructure> {
+  try {
+    const { data } = await client.query({
+      query: FETCH_POPULAR_ANIME_QUERY,
+      variables: { search, format, page, perPage },
+    });
+    return data as DataStructure;
+  } catch (error) {
+    console.error('Error fetching popular anime data:', error);
+    throw new Error('Failed to fetch popular anime data');
+  }
+}
 
 export async function fetchAnimeData(
   page: number,

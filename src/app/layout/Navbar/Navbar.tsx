@@ -17,7 +17,7 @@ export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const menuItems = ['Home', 'Top Manga', 'Manga Recommendations'];
+  const menuItems = ['Home', 'All time popular', 'Anime Recommendations'];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,13 +76,13 @@ export default function NavBar() {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link className="text-white" href="/">
-            Top Anime
+          <Link className="text-white" href="/trending">
+            Trending now
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link className="text-white" href="/recommendation">
-            Anime Recommendations
+            Recommendations
           </Link>
         </NavbarItem>
       </NavbarContent>

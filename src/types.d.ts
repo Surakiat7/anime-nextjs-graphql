@@ -1,5 +1,3 @@
-// src/types.d.ts
-
 export interface DataStructure {
   Page: Page;
 }
