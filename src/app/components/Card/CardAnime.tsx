@@ -196,6 +196,10 @@ const AnimeCardGrid: React.FC = () => {
     await loadAllAnimeData(page);
   };
 
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
   const handleSelectionChange = (keys: Set<string>, type: string) => {
     switch (type) {
       case 'genres':
@@ -210,10 +214,6 @@ const AnimeCardGrid: React.FC = () => {
       default:
         break;
     }
-  };
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
   };
 
   const convertSelection = (keys: any): string[] => {
