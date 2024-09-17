@@ -156,14 +156,14 @@ export async function fetchFormats(): Promise<string[]> {
       variables: { page: 1, perPage: 50 },
     });
 
-    const formatsSet = new Set<string>();
+    const formatsArray: string[] = [];
     data.Page.media.forEach((media) => {
-      if (media.format) {
-        formatsSet.add(media.format);
+      if (media.format && !formatsArray.includes(media.format)) {
+        formatsArray.push(media.format);
       }
     });
 
-    return [...formatsSet].sort();
+    return formatsArray.sort();
   } catch (error) {
     console.error('Error fetching formats:', error);
     throw new Error('Failed to fetch formats');
