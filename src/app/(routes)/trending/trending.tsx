@@ -5,9 +5,7 @@ import NavBar from '@/app/layout/Navbar/Navbar';
 import AnimeCardGrid from '@/app/components/Card/CardAnime';
 import Footer from '@/app/layout/Footer/Footer';
 
-type Props = {};
-
-export default function TrendingPage({}: Props) {
+export default function TrendingPage() {
   return (
     <>
       <NavBar />
