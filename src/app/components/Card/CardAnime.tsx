@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { Pagination, Card, CardFooter, Image } from '@nextui-org/react';
-import { fetchAnimeData } from '@/api/fetch-data';
+import { fetchAnimeData, fetchRecommendedAnimeData } from '@/api/fetch-data';
 import SkeletonLoader from '../Skeleton/SkeletonLoader';
-import { DataStructure, Media } from '@/types';
+import { DataStructure, RecommendationDataStructure, Media } from '@/types';
 import { BsFillStarFill } from 'react-icons/bs';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -22,7 +23,7 @@ const AnimeCard: React.FC<{
   return (
     <Card isFooterBlurred radius="lg" className="border-none w-full relative">
       <Image
-        alt="Woman listing to music"
+        alt="Anime cover"
         className="object-cover"
         height={300}
         src={image}
@@ -51,6 +52,7 @@ const AnimeCard: React.FC<{
 
 // AnimeCardGrid Component
 const AnimeCardGrid: React.FC = () => {
+  const pathname = usePathname();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [animeList, setAnimeList] = useState<Media[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -61,9 +63,20 @@ const AnimeCardGrid: React.FC = () => {
   const loadAnimeData = async (page: number) => {
     try {
       setLoading(true);
-      const data = (await fetchAnimeData(page, itemsPerPage)) as DataStructure;
-      setAnimeList(data.Page.media);
-      setTotalPages(data.Page.pageInfo.lastPage);
+      if (pathname === '/recommendation') {
+        const data = await fetchRecommendedAnimeData(page, itemsPerPage);
+        setAnimeList(
+          data.Page.recommendations.map((rec) => rec.mediaRecommendation)
+        );
+        setTotalPages(data.Page.recommendations.length);
+      } else {
+        const data = (await fetchAnimeData(
+          page,
+          itemsPerPage
+        )) as DataStructure;
+        setAnimeList(data.Page.media);
+        setTotalPages(data.Page.pageInfo.lastPage);
+      }
     } catch (err) {
       setError('Failed to fetch anime data.');
       console.error(err);
@@ -74,7 +87,7 @@ const AnimeCardGrid: React.FC = () => {
 
   useEffect(() => {
     loadAnimeData(currentPage);
-  }, [currentPage]);
+  }, [currentPage, pathname]);
 
   const handleChangePage = (page: number) => {
     gsap.to(window, {

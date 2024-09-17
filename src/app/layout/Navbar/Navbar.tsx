@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import {
   Navbar,
@@ -10,10 +12,6 @@ import {
   Link,
 } from '@nextui-org/react';
 import Image from 'next/image';
-import gsap from 'gsap';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-
-gsap.registerPlugin(ScrollToPlugin);
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -37,22 +35,16 @@ export default function NavBar() {
     };
   }, []);
 
-  const handleLogoClick = () => {
-    gsap.to(window, {
-      duration: 1,
-      scrollTo: { y: 0 },
-      ease: 'power2.inOut',
-    });
-  };
-
   return (
     <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent className="sm:hidden" justify="start">
-        <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+        />
       </NavbarContent>
 
       <NavbarContent className="sm:hidden pr-3" justify="center">
-        <NavbarBrand>
+        <NavbarBrand as={Link} href="/">
           <Image
             src={isScrolled ? '/AnimeLogo-NeonColor.png' : '/AnimeLogo.png'}
             alt="AnimeApolloLogo"
@@ -60,13 +52,12 @@ export default function NavBar() {
             height={50}
             priority
             className="cursor-pointer"
-            onClick={handleLogoClick}
           />
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="start">
-        <NavbarBrand>
+        <NavbarBrand as={Link} href="/">
           <Image
             src={isScrolled ? '/AnimeLogo-NeonColor.png' : '/AnimeLogo.png'}
             alt="AnimeApolloLogo"
@@ -74,7 +65,6 @@ export default function NavBar() {
             height={60}
             priority
             className="cursor-pointer"
-            onClick={handleLogoClick}
           />
         </NavbarBrand>
       </NavbarContent>
@@ -86,13 +76,13 @@ export default function NavBar() {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link className="text-white" href="#">
-            Top Manga
+          <Link className="text-white" href="/">
+            Top Anime
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link className="text-white" href="#">
-            Manga Recommendations
+          <Link className="text-white" href="/recommendation">
+            Anime Recommendations
           </Link>
         </NavbarItem>
       </NavbarContent>

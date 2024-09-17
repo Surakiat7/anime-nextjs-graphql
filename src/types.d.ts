@@ -1,6 +1,7 @@
+// src/types.d.ts
+
 export interface DataStructure {
-  [x: string]: Array;
-  data: Data;
+  Page: Page;
 }
 
 export interface Data {
@@ -51,4 +52,16 @@ export interface Studio {
 export interface MediaQueryRange {
   min: string;
   max?: string;
+}
+
+export interface RecommendationDataStructure {
+  Page: RecommendationPage;
+}
+
+export interface RecommendationPage {
+  recommendations: Recommendation[];
+}
+
+export interface Recommendation {
+  mediaRecommendation: Media;
 }
