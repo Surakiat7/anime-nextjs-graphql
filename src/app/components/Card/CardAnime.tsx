@@ -231,7 +231,7 @@ const AnimeCardGrid: React.FC = () => {
 
   return (
     <main className="w-full justify-center flex flex-col sm:gap-4 gap-4 py-2 sm:py-4">
-      <div className="flex w-full px-2 sm:px-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 w-full px-2 sm:px-4 gap-4">
         <div className="flex flex-col gap-1 w-full">
           <label className="text-base text-white font-medium">Search</label>
           <Input
