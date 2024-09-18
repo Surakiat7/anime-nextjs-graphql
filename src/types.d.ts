@@ -9,14 +9,16 @@ export interface RecommendationDataStructure {
 interface Page {
   media: Media[];
   pageInfo: {
+    total: number;
+    currentPage: number;
     lastPage: number;
+    hasNextPage: boolean;
+    perPage: number;
   };
 }
 
 interface RecommendationPage {
-  recommendations: {
-    mediaRecommendation: Media;
-  }[];
+  recommendations: Recommendation[];
 }
 
 export interface PageInfo {
@@ -34,12 +36,8 @@ interface Media {
     english: string;
   };
   genres: string[];
-  studios: {
-    nodes: { name: string }[];
-  };
-  coverImage: {
-    large: string;
-  };
+  studios: StudioConnection;
+  coverImage: CoverImage;
   averageScore: number;
   startDate: {
     year: number;
@@ -65,10 +63,6 @@ export interface Studio {
   name: string;
 }
 
-export interface RecommendationPage {
-  recommendations: Recommendation[];
-}
-
 export interface Recommendation {
   mediaRecommendation: Media;
 }
@@ -92,4 +86,13 @@ export interface FetchGenresResponse {
 export interface MediaQueryRange {
   min?: string;
   max?: string;
+}
+
+export interface SearchAnimeParams {
+  page?: number;
+  perPage?: number;
+  search?: string;
+  genres?: string[];
+  year?: string | null;
+  formats?: string[];
 }
