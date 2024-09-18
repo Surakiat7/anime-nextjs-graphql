@@ -4,7 +4,7 @@ import {
   DataStructure,
   RecommendationDataStructure,
   FetchFormatsResponse,
-  SearchAnimeParams
+  SearchAnimeParams,
 } from '@/types';
 
 const FETCH_ANIME_QUERY = gql`
@@ -47,6 +47,13 @@ const FETCH_ANIME_QUERY = gql`
 const FETCH_RECOMMENDED_ANIME_QUERY = gql`
   query FetchRecommendedAnimeOrManga($page: Int, $perPage: Int) {
     Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+        currentPage
+        lastPage
+        hasNextPage
+        perPage
+      }
       recommendations {
         mediaRecommendation {
           id
@@ -179,10 +186,10 @@ const SEARCH_ANIME_QUERY = gql`
 export async function fetchSearchAnime({
   page = 1,
   perPage = 30,
-  search = "",
+  search = '',
   genres = [],
   year = null,
-  formats = null
+  formats = null,
 }: SearchAnimeParams): Promise<DataStructure> {
   try {
     const variables: any = {

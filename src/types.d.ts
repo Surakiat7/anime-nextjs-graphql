@@ -19,7 +19,9 @@ interface Page {
 
 interface RecommendationPage {
   recommendations: Recommendation[];
+  pageInfo: PageInfo;
 }
+
 
 export interface PageInfo {
   total: number;

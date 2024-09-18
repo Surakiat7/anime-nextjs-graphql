@@ -135,7 +135,7 @@ const AnimeCardGrid: React.FC = () => {
               )
             );
             setTotalPages(
-              (data as RecommendationDataStructure).Page.recommendations.length
+              (data as RecommendationDataStructure).Page.pageInfo.lastPage
             );
           } else {
             throw new Error('Unexpected data structure');
@@ -149,7 +149,12 @@ const AnimeCardGrid: React.FC = () => {
           } else {
             throw new Error('Unexpected data structure');
           }
-        } else if (searchTerm || genres.length > 0 || year || format.length > 0) {
+        } else if (
+          searchTerm ||
+          genres.length > 0 ||
+          year ||
+          format.length > 0
+        ) {
           const searchParams: SearchAnimeParams = {
             search: searchTerm,
             genres: genres,
@@ -231,76 +236,82 @@ const AnimeCardGrid: React.FC = () => {
 
   return (
     <main className="w-full justify-center flex flex-col sm:gap-4 gap-4 py-2 sm:py-4">
-      <div className="grid grid-cols-2 sm:grid-cols-4 w-full px-2 sm:px-4 gap-4">
-        <div className="flex flex-col gap-1 w-full">
-          <label className="text-base text-white font-medium">Search</label>
-          <Input
-            variant="flat"
-            placeholder="Enter your text to search"
-            endContent={
-              <button
-                className="focus:outline-none"
-                type="button"
-                aria-label="search button"
-              >
-                <LuSearch />
-              </button>
-            }
-            onChange={handleSearchChange}
-          />
+      {pathname === '/' ? (
+        <div className="grid grid-cols-2 sm:grid-cols-4 w-full px-2 sm:px-4 gap-4">
+          <div className="flex flex-col gap-1 w-full">
+            <label className="text-base text-white font-medium">Search</label>
+            <Input
+              variant="flat"
+              placeholder="Enter your text to search"
+              endContent={
+                <button
+                  className="focus:outline-none"
+                  type="button"
+                  aria-label="search button"
+                >
+                  <LuSearch />
+                </button>
+              }
+              onChange={handleSearchChange}
+            />
+          </div>
+          <div className="flex flex-col gap-1 w-full">
+            <label className="text-base text-white font-medium">Genres</label>
+            <Select
+              placeholder="Select genre"
+              selectionMode="multiple"
+              selectedKeys={genres}
+              onSelectionChange={(keys) =>
+                handleSelectionChange(keys as Set<string> | string[], 'genres')
+              }
+            >
+              {genresOptions.map((genre) => (
+                <SelectItem
+                  className="text-slate-950"
+                  key={genre}
+                  value={genre}
+                >
+                  {genre}
+                </SelectItem>
+              ))}
+            </Select>
+          </div>
+          <div className="flex flex-col gap-1 w-full">
+            <label className="text-base text-white font-medium">Year</label>
+            <Select
+              selectionMode="single"
+              placeholder="Select year"
+              selectedKeys={year ? [year] : []}
+              onSelectionChange={(keys) =>
+                handleSelectionChange(keys as Set<string> | string[], 'year')
+              }
+            >
+              {yearsOptions.map((year) => (
+                <SelectItem key={year} className="text-slate-950">
+                  {year}
+                </SelectItem>
+              ))}
+            </Select>
+          </div>
+          <div className="flex flex-col gap-1 w-full">
+            <label className="text-base text-white font-medium">Format</label>
+            <Select
+              selectionMode="multiple"
+              placeholder="Select format"
+              selectedKeys={format}
+              onSelectionChange={(keys) =>
+                handleSelectionChange(keys as Set<string> | string[], 'format')
+              }
+            >
+              {formatsOptions.map((format) => (
+                <SelectItem key={format} className="text-slate-950">
+                  {format}
+                </SelectItem>
+              ))}
+            </Select>
+          </div>
         </div>
-        <div className="flex flex-col gap-1 w-full">
-          <label className="text-base text-white font-medium">Genres</label>
-          <Select
-            placeholder="Select genre"
-            selectionMode="multiple"
-            selectedKeys={genres}
-            onSelectionChange={(keys) =>
-              handleSelectionChange(keys as Set<string> | string[], 'genres')
-            }
-          >
-            {genresOptions.map((genre) => (
-              <SelectItem className="text-slate-950" key={genre} value={genre}>
-                {genre}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-        <div className="flex flex-col gap-1 w-full">
-          <label className="text-base text-white font-medium">Year</label>
-          <Select
-            selectionMode="single"
-            placeholder="Select year"
-            selectedKeys={year ? [year] : []}
-            onSelectionChange={(keys) =>
-              handleSelectionChange(keys as Set<string> | string[], 'year')
-            }
-          >
-            {yearsOptions.map((year) => (
-              <SelectItem key={year} className="text-slate-950">
-                {year}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-        <div className="flex flex-col gap-1 w-full">
-          <label className="text-base text-white font-medium">Format</label>
-          <Select
-            selectionMode="multiple"
-            placeholder="Select format"
-            selectedKeys={format}
-            onSelectionChange={(keys) =>
-              handleSelectionChange(keys as Set<string> | string[], 'format')
-            }
-          >
-            {formatsOptions.map((format) => (
-              <SelectItem key={format} className="text-slate-950">
-                {format}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-      </div>
+      ) : null}
 
       {/* Anime cards grid */}
       {loading ? (
